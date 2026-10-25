@@ -1,112 +1,105 @@
-# SUBWAY GAME — 지하철 혼잡 분산 / Crowding Optimization
+# SUBWAY GAME — 도시철도 혼잡 분산 최적화
 
-**Industrial engineering · operations research · data analysis · human-centered operations**
+**산업공학 · 운영연구(OR) · 데이터 분석 · 사용자 참여형 운영**
 
-[한국어 README](README.ko.md) · [Synthetic interactive demo](https://doyunsin883-debug.github.io/subway-game-crowding-optimization/) · [Methods](docs/METHODS.md) · [Architecture](docs/ARCHITECTURE.md) · [Evidence & limits](docs/EVIDENCE.md)
+[웹 시연 바로 열기](https://doyunsin883-debug.github.io/subway-game-crowding-optimization/) · [수학·알고리즘](docs/METHODS.md) · [시스템 구성](docs/ARCHITECTURE.md) · [검증과 한계](docs/EVIDENCE.md) · [English version](README.en.md)
 
-> A portfolio-safe research and demonstration repository for a submission to the **2026 Seoul Metro / KALDA “Subway Crowding and Safety Facility Data Utilization Service Discovery Competition.”** The interactive demo contains only synthetic values and original schematic graphics. Competition-provided raw data, station GLB/SHP assets, detailed replay files, credentials, and participant documents are intentionally absent.
+> **2026 서울교통공사 / 한국국토교통데이터진흥협회(KALDA) 「지하철 혼잡도 및 안전시설 데이터 활용 서비스 발굴 공모전」 출품을 위해 개발한 프로젝트**의 취업 포트폴리오 공개판입니다. 이 저장소의 인터랙티브 시연은 합성 수치와 자체 제작 도식만 사용합니다. 공모전 제공 원본 데이터, 역사 GLB/SHP 모델, 상세 재생 파일, 인증정보, 참가서류는 넣지 않았습니다.
 
-**한국어 요약:** 시민에게는 가까운 이동 미션을 간단히 제안하고, 관리자는 전체 승객의 대기열·미션 반응·정책 가정을 함께 살펴보는 도시철도 운영 시뮬레이션입니다. [한국어 전체 설명](README.ko.md) · [웹 시연 바로 열기](https://doyunsin883-debug.github.io/subway-game-crowding-optimization/)
+**English summary:** A portfolio case study of a voluntary passenger redistribution system. The public demo is synthetic; observed crowding, modeled platform movement, and proposed energy savings are explicitly separated. [Full English documentation](README.en.md).
 
-## See it first / 화면부터 보기
+## 화면과 구조 한눈에 보기 / See the demo
 
-![Observation, prediction, safe mission, citizen response, and operations evaluation / 관측부터 운영 평가까지](media/decision-flow.svg)
+![관측, 예측, 안전한 미션, 시민 반응, 관리자 평가로 이어지는 흐름](media/decision-flow.svg)
 
-**Peak mission / 혼잡 시간 객차 이동**
+**혼잡 시간: 객차 이동 미션 / Peak**
 
-![Synthetic peak citizen and operator screenshot / 합성 혼잡 시간 시민·관리자 화면](media/demo-peak.jpg)
+![합성 데이터로 만든 혼잡 시간 시민 및 관리자 화면](media/demo-peak.jpg)
 
-**Off-peak mission / 평상시 출입구 선택**
+**평상시: 출입구 미션 / Off peak**
 
-![Synthetic off-peak citizen and operator screenshot / 합성 평상시 시민·관리자 화면](media/demo-offpeak.jpg)
+![합성 데이터로 만든 평상시 시민 및 관리자 화면](media/demo-offpeak.jpg)
 
-These are screenshots of the **public synthetic demo**. The dark panel is the operator view; the phone frame is the citizen view. They do not contain the competition's station model or observed passenger logs. **[Try the interactive demo / 시연 직접 실행 →](https://doyunsin883-debug.github.io/subway-game-crowding-optimization/)**
+두 이미지는 **공개용 합성 시연**을 캡처한 것입니다. 실제 역사 3D 모델이나 승객 이동 로그가 아닙니다. **[클릭해서 웹 시연하기 / Interactive demo →](https://doyunsin883-debug.github.io/subway-game-crowding-optimization/)**
 
-## How prediction was made / 예측 과정
+## 어떻게 예측했는가 / Forecasting method
 
-1. **Reconstruct and check / 방문 재구성·품질 검사:** parse 69 supplied CSVs, inspect missing/negative cells and duplicates, retain 9,909 complete ten-car train visits.
-2. **Use available information only / 미래 정보 차단:** current and adjacent car values, station/time, and boarding from the *previous completed hour* become features. Fare class is never treated as individual age or sex.
-3. **Split by date / 날짜 분리:** train June 17–22, tune June 23–24, evaluate once on June 25–28, 2026.
-4. **Compare a simple baseline / 단순 기준선 비교:** evaluate XGBoost against carrying the current car value forward. Keep the simpler method where it wins.
-5. **Gate recommendations / 미션 발행 조건:** require a valid source-target spread of at least `10.72 pp = 2 × 5.36 pp` (twice the next-station model's 90th-percentile absolute error), then apply walking and safety limits. This is an engineering threshold, not a guarantee.
+1. **자료 정리:** 제공된 CSV 69개에서 결측·음수 셀·중복을 확인하고 10칸 값이 모두 유효한 열차 방문 9,909건을 분리했습니다.
+2. **미래 정보 차단:** 현재 객차, 인접 객차, 역·시간, *완료된 직전 1시간* 승하차만 입력에 넣었습니다. 요금유형을 개인의 나이·성별로 해석하지 않았습니다.
+3. **날짜 분리:** 2026년 6월 17–22일 학습, 23–24일 조정, 25–28일 최종 보류 평가로 구성했습니다.
+4. **단순 기준선과 비교:** XGBoost 회귀와 현재 객차 혼잡도를 그대로 쓰는 기준선을 비교했습니다. 다음 10분 과제는 기준선이 더 정확했습니다.
+5. **미션 발행 제한:** 다음 역 모델의 절대오차 90백분위인 5.36%p의 두 배, 즉 예측 격차 10.72%p 이상을 요구하고 보행·안전 제약을 확인합니다. 이는 운영상 보수적 기준이며 정확도 보증은 아닙니다.
 
-![Date-split MAE comparison / 날짜 분리 MAE 비교](media/forecast-validation.svg)
+![날짜 분리 검증에서 다음 역과 다음 10분 예측 MAE 비교](media/forecast-validation.svg)
 
-### Core equations / 핵심 수식
-
-```text
-MAE = (1/n) Σ |ŷ_i − y_i|                          forecast error / 예측 오차
-gap(i,j) = ŷ_source(i) − ŷ_target(j) ≥ 10.72 pp   mission gate / 미션 발행 기준
-D_max = (max_j q_before,j − max_j q_after,j) / max_j q_before,j
-HHI(q) = Σ_j (q_j / N)^2                          concentration / 밀집도
-expected completions ≈ N × reach × eligible × accept × complete
-```
-
-The queue terms above use a **modeled** platform population. On-board car crowding is only a proxy for a boarding-door zone; actual platform queues were not measured. The proposed global OR objective and its constraints are in [Methods / 수학·알고리즘](docs/METHODS.md).
-
-![Monte Carlo scenario sensitivity / 몬테카를로 시나리오 민감도](media/scenario-results.svg)
-
-## One-minute overview
-
-Crowding information alone does not redistribute passengers. SUBWAY GAME asks a narrower operations question: **which voluntary, feasible move should be suggested to which passenger, and how will operators know whether it helped?** The full prototype separates a simple citizen interface from an operations console. At peaks, it suggests a nearby less crowded boarding-door zone. Off peak, it can propose a safe alternative entrance. A longer 14-day mission tests flexible departure/entry choices. Quiz and reward loops support participation.
-
-The operational loop is:
+### 핵심 수식 / Core equations
 
 ```text
-historical observations → quality gate → baseline / forecast
-→ feasible mission candidates → citizen accepts / declines / completes
-→ aggregated operations metrics → policy comparison → revise policy
+MAE = (1/n) Σ |ŷ_i − y_i|                           예측 오차
+gap(i,j) = ŷ_출발칸(i) − ŷ_목표칸(j) ≥ 10.72 %p     미션 발행 기준
+D_max = (max_j q_이전,j − max_j q_이후,j) / max_j q_이전,j
+HHI(q) = Σ_j (q_j / N)^2                            전체 대기열 밀집도
+예상 완료 ≈ 전체 승객 × 앱 도달률 × 자격률 × 수락률 × 완료율
 ```
 
-The system is a **simulation prototype**, not a live Seoul Metro feed or measured field intervention. The full deployed prototype uses competition-provided spatial assets; this public repository deliberately does not mirror those assets or its detailed replay data. The linked demo is a separate synthetic reconstruction.
+위 대기열 수식은 **가상 승강장 인원**에 적용됩니다. 객차 내부 혼잡도는 승차 대기 구역의 대리 지표일 뿐, 실제 승강장 대기열은 측정하지 못했습니다. 전역 최적화 목적함수와 제약은 [수학·알고리즘 상세](docs/METHODS.md)에 있습니다.
 
-## What I built and what remains proposed
+![앱 도달률에 따른 몬테카를로 가상 최대 대기열 감소](media/scenario-results.svg)
 
-| Component | Implemented in the full prototype | Evidence boundary |
+## 1분 요약
+
+객차 혼잡도를 보여주기만 해서는 시민의 대기 위치가 바뀌지 않습니다. 이 프로젝트는 **누구에게 어떤 이동을 제안해야 수락 가능성과 전체 혼잡 개선을 함께 높일 수 있는가**, 그리고 **운영자가 그 효과를 어떻게 검증할 것인가**를 다룹니다.
+
+전체 프로토타입은 시민용 모바일 웹과 관리자용 관제 웹으로 나뉩니다. 혼잡 시간에는 가까운 저혼잡 승차 구역을 제안하고, 평상시에는 안전한 대체 출입구를 제안합니다. 14일 미션은 시간·역 선택에 유연성이 있는 시민의 수요를 분산하기 위한 기능입니다. 안전 퀴즈와 보상은 재방문을 유도하는 참여 장치입니다.
+
+```text
+과거 관측 → 품질 점검 → 기준선·예측
+→ 안전 제약을 통과한 미션 → 시민 수락·거절·완료
+→ 관리자 집계 → 정책 비교 → 운영 조건 수정
+```
+
+**현재 서비스는 시뮬레이션 프로토타입입니다.** 실시간 서울교통공사 관제망이나 현장 센서에 연결된 실증 서비스가 아닙니다. 기존 전체 시연에 사용한 공모전 제공 공간 파일과 상세 재생값은 이 공개 저장소에 포함하지 않았습니다.
+
+## 구현한 것과 앞으로 검증할 것
+
+| 영역 | 전체 프로토타입에서 구현 | 증거의 범위 |
 |---|---|---|
-| Citizen experience | Mobile-first missions, progress, quiz, weather, train notice, Korean/English/Japanese | Mission arrival is self-reported in the prototype |
-| Operations console | Station/date replay, 10-car crowding, policy controls, synthetic cohort response, 3D station view | Historical replay and synthetic sensors are labeled separately |
-| Data engineering | Quality counts, 10-car visit reconstruction, public boarding aggregation | Source observations are not distributed here |
-| Prediction | XGBoost next-station and next-10-minute models with chronological holdout | The next-10-minute model did **not** beat the persistence MAE baseline |
-| Mission allocation | High-crowding source, predicted spread threshold, lowest-predicted feasible target ranking | Learned individual acceptance and global optimization are **proposed**, not validated |
-| Policy evaluation | Deterministic cohort simulation and Monte Carlo counterfactual | Not a causal field estimate |
-| Energy | Entrance-demand and escalator standby scenario | No power meter or verified savings |
+| 시민 화면 | 모바일 미션, 이동 진행률, 퀴즈·보상·날씨·열차 안내, 한/영/일 | 도착은 시연용 자기보고 |
+| 관리자 화면 | 관측 날짜별 재생, 10칸 혼잡, 정책 조작, 400명 합성 반응, 역사 3D | 과거 관측과 합성 센서를 구분 표시 |
+| 데이터 처리 | 품질 집계, 10칸 편성 재구성, 공개 승하차 통계 결합 | 원자료는 공개 저장소에서 제외 |
+| 예측 | 다음 역/다음 10분 XGBoost, 날짜 분리 평가 | 10분 예측 MAE는 단순 기준선보다 열세 |
+| 미션 배정 | 혼잡 상위 구역에서 예측 차이·이동 거리로 후보 순위화 | 개인 수락률 학습과 전역 최적화는 제안 단계 |
+| 정책 평가 | 400명 합성 코호트와 몬테카를로 반사실 분석 | 현장 인과효과가 아님 |
+| 에너지 | 출입구 수요·에스컬레이터 대기 전환 시나리오 | 전력 실측값 없음 |
 
-## Research questions
+## 산업공학 관점의 핵심 질문
 
-1. **Data analysis:** How do we build an honest station × hour × car baseline with missing or invalid observations?
-2. **OR:** How can we balance maximum queue, concentration, walking burden, capacity, accessibility, and voluntary acceptance?
-3. **Experiment design:** Does issuing a mission improve whole-platform outcomes once non-users and spillovers are counted?
-4. **Engineering economics:** Under what adoption, coupon, integration, and energy assumptions could a pilot be worth operating?
+1. **데이터 분석:** 결측과 음수가 있는 자료로 역 × 시간 × 칸 기준선을 어떻게 구성하는가?
+2. **OR:** 최대 대기열·집중도·보행 부담·접근성·수락 가능성을 어떻게 함께 최적화하는가?
+3. **실험 설계:** 앱 비사용자와 혼잡 전이를 포함했을 때 실제 정책 효과는 얼마인가?
+4. **경제성공학:** 쿠폰·운영·연동 비용과 검증된 편익이 어떤 조건에서 균형을 이루는가?
 
-## Key results, correctly scoped
+## 수치와 해석 범위
 
-- The supplied June 2026 data was screened at **390,865 rows across 69 CSV files**. After reconstruction, **9,909 complete 10-car visits** were available. These are observational records, not platform queue sensors.
-- A chronological holdout (train: June 17–24; holdout: June 25–28) gave next-station crowding **MAE 2.40 percentage points** versus **2.72** for persistence. Next-10-minute crowding gave **9.96** versus **9.66**; the simple baseline was better on that MAE.
-- In a mechanistic Monte Carlo scenario (3,000 draws per coverage setting; 400 **assumed** waiting people per train), mean reduction in the maximum simulated door-zone queue was approximately **0.8%, 2.3%, and 4.7%** at 5%, 15%, and 30% app reach. These are **model outputs**, not real-world impact estimates. See [evidence and limitations](docs/EVIDENCE.md).
+- 제공된 2026년 6월 자료 **69개 CSV, 390,865행**을 점검하고 **완전한 10칸 열차 방문 9,909건**을 재구성했습니다. 이는 승강장 대기 인원 센서가 아니라 객차 혼잡 관측입니다.
+- 날짜 분리 평가(학습 6/17–24, 보류 6/25–28)에서 다음 역 혼잡 MAE는 XGBoost **2.40%p**, 직전값 유지 **2.72%p**였습니다. 다음 10분 혼잡은 각각 **9.96%p**, **9.66%p**로 단순 기준선이 더 좋았습니다.
+- 400명 **가정** 대기열에 대한 기계적 몬테카를로 시나리오에서는 앱 도달률 5/15/30%일 때 최대 가상 대기열의 평균 감소가 약 **0.8/2.3/4.7%**였습니다. **현장 개선율이 아닙니다.** 가정과 계산은 [검증 문서](docs/EVIDENCE.md)에 있습니다.
 
-## Explore the repository
+## 살펴보는 순서
 
-- [Architecture and system mind map](docs/ARCHITECTURE.md) — separate citizen and operator views, information flow, source labels.
-- [Mathematical methods and implementation details](docs/METHODS.md) — baselines, model validation, mission ranking, simulation, energy, and economics.
-- [Evidence, limitations, and field trial](docs/EVIDENCE.md) — what was observed, assumed, validated, and still unknown.
-- [Operating model and daily quiz plan](docs/OPERATIONS.md) — 10-question safety program, 14-day missions, rewards, staffing, and stop rules.
-- [Data and copyright boundaries](docs/DATA_GOVERNANCE.md) — why original competition assets are excluded.
-- [Synthetic demo guide](docs/DEMO.md) — how to inspect the interactive example.
-- [Runnable synthetic policy example](src/synthetic_policy.py) — self-contained Python standard-library reconstruction, not the private data pipeline.
-
-## Reproduce the public example
+1. [시스템 구성·마인드맵](docs/ARCHITECTURE.md): 시민과 관리자 인터페이스, 데이터 흐름, 관측/시뮬레이션 경계
+2. [수학·알고리즘](docs/METHODS.md): 품질 점검, 기준선, 예측 평가, 미션 배정, 시뮬레이션, 에너지·경제성 수식
+3. [검증과 한계](docs/EVIDENCE.md): 무엇을 실제 관측했고 무엇을 가정했는지, 현장 실험 계획
+4. [운영계획](docs/OPERATIONS.md): 하루 10문항 안전 퀴즈, 14일 미션, 보상·제휴·안전 중단 기준
+5. [데이터·저작권 경계](docs/DATA_GOVERNANCE.md): 원본 파일을 제외한 이유
+6. [합성 데이터 시연 안내](docs/DEMO.md) 및 [실행 코드](src/synthetic_policy.py)
 
 ```bash
 python src/synthetic_policy.py
 ```
 
-No package installation or data download is required. The script prints a synthetic 10-car mission decision, queue metrics, and the assumptions it used. Open `site/index.html` locally or use the linked GitHub Pages demo for the citizen/operator interaction. **Its values are generated for demonstration and must not be compared with the private observation-based results above.**
+추가 패키지나 원본 데이터 없이 실행됩니다. 브라우저에서는 `site/index.html` 또는 위의 GitHub Pages 시연을 열면 됩니다. **공개용 시연 값은 합성이며, 위 실측 기반 요약 수치와 같지 않습니다.**
 
-## Attribution and rights
+## 출처와 권리
 
-Competition organizer: Seoul Metro; host: Korea Land & Transport Data Association (KALDA). The underlying competition data and station models remain with their respective rightsholders. This repository does not grant a license to copy them. A separate public boarding dataset used during the project is listed by [data.go.kr](https://www.data.go.kr/data/15099330/fileData.do) with “no restrictions” on use; the original CSV is not mirrored here. The repo contains original prose, diagrams, and a synthetic demo. No association or endorsement by the organizers is implied.
-
-## Contact / portfolio discussion
-
-For a technical interview, start with the [architecture](docs/ARCHITECTURE.md), then the [methods](docs/METHODS.md) and [evidence](docs/EVIDENCE.md). I can explain the decisions, error analysis, and pilot design without distributing restricted source assets.
+공모전 주최는 서울교통공사, 주관은 KALDA입니다. 공모전 제공 데이터와 역사 모델의 권리는 각 권리자에게 있습니다. 이 저장소는 해당 원본을 재배포하거나 그 복제 권한을 부여하지 않습니다. 별도로 사용한 [서울교통공사 승하차 공개자료](https://www.data.go.kr/data/15099330/fileData.do)는 공공데이터포털에 이용허락범위 “제한 없음”으로 표시되어 있지만, 원본 CSV 역시 이 저장소에 복제하지 않았습니다. 주최기관의 공식 승인·후원을 의미하지 않습니다.

@@ -2,7 +2,7 @@
 
 **산업공학 · 운영연구(OR) · 데이터 분석 · 사용자 참여형 운영**
 
-[English README](README.md) · [합성 데이터 시연](https://doyunsin883-debug.github.io/subway-game-crowding-optimization/) · [수학·알고리즘](docs/METHODS.md) · [시스템 구성](docs/ARCHITECTURE.md) · [검증과 한계](docs/EVIDENCE.md)
+[기본 README](README.md) · [English version](README.en.md) · [합성 데이터 시연](https://doyunsin883-debug.github.io/subway-game-crowding-optimization/) · [수학·알고리즘](docs/METHODS.md) · [시스템 구성](docs/ARCHITECTURE.md) · [검증과 한계](docs/EVIDENCE.md)
 
 > **2026 서울교통공사 / 한국국토교통데이터진흥협회(KALDA) 「지하철 혼잡도 및 안전시설 데이터 활용 서비스 발굴 공모전」 출품을 위해 개발한 프로젝트**의 취업 포트폴리오 공개판입니다. 이 저장소의 인터랙티브 시연은 합성 수치와 자체 제작 도식만 사용합니다. 공모전 제공 원본 데이터, 역사 GLB/SHP 모델, 상세 재생 파일, 인증정보, 참가서류는 넣지 않았습니다.
 
