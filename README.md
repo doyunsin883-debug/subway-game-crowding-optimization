@@ -6,8 +6,6 @@
 
 > **2026 서울교통공사 / 한국국토교통데이터진흥협회(KALDA) 「지하철 혼잡도 및 안전시설 데이터 활용 서비스 발굴 공모전」 출품을 위해 개발한 프로젝트**의 취업 포트폴리오 공개판입니다. 이 저장소의 인터랙티브 시연은 합성 수치와 자체 제작 도식만 사용합니다. 공모전 제공 원본 데이터, 역사 GLB/SHP 모델, 상세 재생 파일, 인증정보, 참가서류는 넣지 않았습니다.
 
-**English summary:** A portfolio case study of a voluntary passenger redistribution system. The public demo is synthetic; observed crowding, modeled platform movement, and proposed energy savings are explicitly separated. [Full English documentation](README.en.md).
-
 ## 화면과 구조 한눈에 보기 / See the demo
 
 ![관측, 예측, 안전한 미션, 시민 반응, 관리자 평가로 이어지는 흐름](media/decision-flow.svg)
