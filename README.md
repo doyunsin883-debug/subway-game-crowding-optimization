@@ -50,6 +50,7 @@ The system is a **simulation prototype**, not a live Seoul Metro feed or measure
 - [Architecture and system mind map](docs/ARCHITECTURE.md) — separate citizen and operator views, information flow, source labels.
 - [Mathematical methods and implementation details](docs/METHODS.md) — baselines, model validation, mission ranking, simulation, energy, and economics.
 - [Evidence, limitations, and field trial](docs/EVIDENCE.md) — what was observed, assumed, validated, and still unknown.
+- [Operating model and daily quiz plan](docs/OPERATIONS.md) — 10-question safety program, 14-day missions, rewards, staffing, and stop rules.
 - [Data and copyright boundaries](docs/DATA_GOVERNANCE.md) — why original competition assets are excluded.
 - [Synthetic demo guide](docs/DEMO.md) — how to inspect the interactive example.
 - [Runnable synthetic policy example](src/synthetic_policy.py) — self-contained Python standard-library reconstruction, not the private data pipeline.

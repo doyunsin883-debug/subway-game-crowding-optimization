@@ -50,8 +50,9 @@
 1. [시스템 구성·마인드맵](docs/ARCHITECTURE.md): 시민과 관리자 인터페이스, 데이터 흐름, 관측/시뮬레이션 경계
 2. [수학·알고리즘](docs/METHODS.md): 품질 점검, 기준선, 예측 평가, 미션 배정, 시뮬레이션, 에너지·경제성 수식
 3. [검증과 한계](docs/EVIDENCE.md): 무엇을 실제 관측했고 무엇을 가정했는지, 현장 실험 계획
-4. [데이터·저작권 경계](docs/DATA_GOVERNANCE.md): 원본 파일을 제외한 이유
-5. [합성 데이터 시연 안내](docs/DEMO.md) 및 [실행 코드](src/synthetic_policy.py)
+4. [운영계획](docs/OPERATIONS.md): 하루 10문항 안전 퀴즈, 14일 미션, 보상·제휴·안전 중단 기준
+5. [데이터·저작권 경계](docs/DATA_GOVERNANCE.md): 원본 파일을 제외한 이유
+6. [합성 데이터 시연 안내](docs/DEMO.md) 및 [실행 코드](src/synthetic_policy.py)
 
 ```bash
 python src/synthetic_policy.py
