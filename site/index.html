@@ -114,7 +114,9 @@
     function allocate(weights,total){let sum=weights.reduce((a,b)=>a+b,0),raw=weights.map(x=>x*total/sum),out=raw.map(Math.floor),r=total-out.reduce((a,b)=>a+b,0);raw.map((v,i)=>({i,frac:v-out[i]})).sort((a,b)=>b.frac-a.frac||a.i-b.i).slice(0,r).forEach(x=>out[x.i]++);return out}
     function scenario(){
       const before=allocate(observed,400),after=before.slice(),mission=recommended();
-      const eligible=Math.round(400*S.reach/100*.6*S.accept/100*.8);
+      // Only riders already waiting at the high-crowding origin can take
+      // this specific car-to-car mission; other covered riders are not moves.
+      const eligible=Math.round(before[mission.from-1]*S.reach/100*.6*S.accept/100*.8);
       const moves=Math.min(eligible,Math.max(0,Math.floor((after[mission.from-1]-after[mission.to-1])/2)));
       after[mission.from-1]-=moves;after[mission.to-1]+=moves;
       const delta=(Math.max(...before)-Math.max(...after))/Math.max(...before)*100;

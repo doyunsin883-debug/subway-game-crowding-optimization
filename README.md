@@ -28,7 +28,7 @@ The system is a **simulation prototype**, not a live Seoul Metro feed or measure
 | Operations console | Station/date replay, 10-car crowding, policy controls, synthetic cohort response, 3D station view | Historical replay and synthetic sensors are labeled separately |
 | Data engineering | Quality counts, 10-car visit reconstruction, public boarding aggregation | Source observations are not distributed here |
 | Prediction | XGBoost next-station and next-10-minute models with chronological holdout | The next-10-minute model did **not** beat the persistence MAE baseline |
-| Mission allocation | High-crowding source, predicted spread threshold, nearest feasible target ranking | Learned individual acceptance and global optimization are **proposed**, not validated |
+| Mission allocation | High-crowding source, predicted spread threshold, lowest-predicted feasible target ranking | Learned individual acceptance and global optimization are **proposed**, not validated |
 | Policy evaluation | Deterministic cohort simulation and Monte Carlo counterfactual | Not a causal field estimate |
 | Energy | Entrance-demand and escalator standby scenario | No power meter or verified savings |
 
