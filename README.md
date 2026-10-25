@@ -1,4 +1,4 @@
-# SUBWAY GAME — Crowding Optimization for Urban Rail
+# SUBWAY GAME — 지하철 혼잡 분산 / Crowding Optimization
 
 **Industrial engineering · operations research · data analysis · human-centered operations**
 
@@ -12,9 +12,13 @@
 
 ![Observation, prediction, safe mission, citizen response, and operations evaluation / 관측부터 운영 평가까지](media/decision-flow.svg)
 
-| Peak mission / 혼잡 시간 객차 이동 | Off-peak mission / 평상시 출입구 선택 |
-|---|---|
-| ![Synthetic peak citizen and operator screenshot](media/demo-peak.jpg) | ![Synthetic off-peak citizen and operator screenshot](media/demo-offpeak.jpg) |
+**Peak mission / 혼잡 시간 객차 이동**
+
+![Synthetic peak citizen and operator screenshot / 합성 혼잡 시간 시민·관리자 화면](media/demo-peak.jpg)
+
+**Off-peak mission / 평상시 출입구 선택**
+
+![Synthetic off-peak citizen and operator screenshot / 합성 평상시 시민·관리자 화면](media/demo-offpeak.jpg)
 
 These are screenshots of the **public synthetic demo**. The dark panel is the operator view; the phone frame is the citizen view. They do not contain the competition's station model or observed passenger logs. **[Try the interactive demo / 시연 직접 실행 →](https://doyunsin883-debug.github.io/subway-game-crowding-optimization/)**
 

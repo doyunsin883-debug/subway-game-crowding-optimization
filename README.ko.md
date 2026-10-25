@@ -10,9 +10,13 @@
 
 ![관측, 예측, 안전한 미션, 시민 반응, 관리자 평가로 이어지는 흐름](media/decision-flow.svg)
 
-| 혼잡 시간: 객차 이동 미션 / Peak | 평상시: 출입구 미션 / Off peak |
-|---|---|
-| ![합성 데이터로 만든 혼잡 시간 시민 및 관리자 화면](media/demo-peak.jpg) | ![합성 데이터로 만든 평상시 시민 및 관리자 화면](media/demo-offpeak.jpg) |
+**혼잡 시간: 객차 이동 미션 / Peak**
+
+![합성 데이터로 만든 혼잡 시간 시민 및 관리자 화면](media/demo-peak.jpg)
+
+**평상시: 출입구 미션 / Off peak**
+
+![합성 데이터로 만든 평상시 시민 및 관리자 화면](media/demo-offpeak.jpg)
 
 두 이미지는 **공개용 합성 시연**을 캡처한 것입니다. 실제 역사 3D 모델이나 승객 이동 로그가 아닙니다. **[클릭해서 웹 시연하기 / Interactive demo →](https://doyunsin883-debug.github.io/subway-game-crowding-optimization/)**
 
