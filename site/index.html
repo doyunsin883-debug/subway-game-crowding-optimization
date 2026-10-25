@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="SUBWAY GAME synthetic demonstration: industrial engineering approach to crowd redistribution.">
+  <title>SUBWAY GAME · Synthetic operations demo</title>
+  <style>
+    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Malgun Gothic",sans-serif;color:#12304d;background:#eaf0f8}
+    *{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}
+    .notice{background:#091a31;color:#c9d9ef;padding:12px max(18px,calc((100vw - 1180px)/2));font-size:13px;line-height:1.5}
+    .notice b{color:#69def5}.shell{max-width:1180px;margin:0 auto;padding:32px 18px 60px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}
+    .brand{font-size:22px;font-weight:900;letter-spacing:-.05em}.brand span{display:inline-grid;place-items:center;width:32px;height:32px;color:white;background:#2c66f6;border-radius:10px;margin-right:8px;box-shadow:0 8px 18px #2c66f633}
+    .header-links{display:flex;gap:16px}.header-links a{color:#2557c9;font-size:13px;font-weight:700}
+    .intro{display:flex;justify-content:space-between;align-items:end;gap:22px;margin-bottom:27px}
+    .intro h1{font-size:clamp(30px,4.5vw,55px);line-height:1.09;letter-spacing:-.06em;margin:8px 0}
+    .intro p{color:#5b7291;max-width:640px;margin:0;line-height:1.6}.eyebrow{font-size:12px;color:#315ddf;font-weight:900;letter-spacing:.14em}
+    .language{border:1px solid #cbd9eb;background:white;border-radius:12px;padding:10px 12px;color:#12304d}
+    .layout{display:grid;grid-template-columns:minmax(310px,390px) 1fr;gap:22px;align-items:start}
+    .phone{border:8px solid #152b42;border-radius:37px;background:#f7f9ff;min-height:645px;box-shadow:0 30px 70px #1d3a6740;overflow:hidden;position:relative}
+    .phone-top{display:flex;justify-content:space-between;align-items:center;padding:25px 20px 14px;background:white}
+    .phone-top strong{font-size:13px}.status{font-size:11px;color:#2c66f6;font-weight:800}
+    .phone-content{padding:18px}.pill{display:inline-flex;align-items:center;gap:7px;color:#335eda;background:#e6edff;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800}
+    .hero{background:linear-gradient(140deg,#f0f4ff,#d9efff);padding:22px;border-radius:24px;margin-bottom:13px;overflow:hidden}
+    .hero h2{margin:15px 0 7px;font-size:29px;letter-spacing:-.06em;line-height:1.23}.hero p{color:#556c87;font-size:13px;margin:0;line-height:1.5}
+    .switches{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:15px 0}
+    .switches button{border:1px solid #d9e5f4;background:white;color:#58708c;border-radius:14px;padding:12px 8px;font-weight:800;font-size:12px}
+    .switches button.active{color:#fff;background:#2d63ee;border-color:#2d63ee}
+    .mission{background:white;border:1px solid #e3eaf5;border-radius:23px;padding:18px;box-shadow:0 12px 30px #2848820d}
+    .mission h3{margin:8px 0;font-size:23px;letter-spacing:-.05em}.mission p{font-size:13px;line-height:1.5;color:#597087;margin:0 0 15px}
+    .cars{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin:14px 0 5px}.car{height:49px;border-radius:7px;display:flex;align-items:end;justify-content:center;padding-bottom:6px;font-size:10px;font-weight:800;background:#dce9ff;color:#31559b}
+    .car.hot{background:#ff746b;color:white}.car.target{background:#37cdaa;color:#08382f;outline:2px solid #1da884}
+    .legend{font-size:10px;color:#8092aa;display:flex;justify-content:space-between;margin-bottom:15px}
+    .entrances{height:180px;border-radius:17px;background:linear-gradient(90deg,#eff6ff 1px,transparent 1px),linear-gradient(#eff6ff 1px,transparent 1px),#f7faff;background-size:20px 20px;position:relative;margin:14px 0}
+    .entrances:before{content:"STATION / 역사";position:absolute;left:33%;top:42%;padding:10px 16px;border-radius:12px;background:#d5e6ff;color:#2e5dc2;font-size:11px;font-weight:800}
+    .entrance{position:absolute;border-radius:11px;padding:8px 10px;background:#fff;border:1px solid #d2e1f5;color:#59748d;font-size:12px;font-weight:800}
+    .entrance.target{background:#37cdaa;color:#063d34;border-color:#20ad8f}.entrance.one{left:10%;top:13%}.entrance.two{right:8%;top:15%}.entrance.three{left:12%;bottom:15%}.entrance.four{right:9%;bottom:12%}
+    .cta{width:100%;border:0;border-radius:15px;background:#2d63ee;color:#fff;padding:15px;font-weight:850;box-shadow:0 10px 22px #2d63ee35}.cta.secondary{background:#0e9f83}.cta:disabled{opacity:.55;cursor:default}
+    .small-cards{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.small-card{border:1px solid #e2eaf6;background:white;border-radius:14px;padding:12px}.small-card b{display:block;color:#2340a4;font-size:15px}.small-card span{font-size:10px;color:#7389a2}
+    .reward{background:#e8efff;margin-top:12px;padding:13px 15px;border-radius:15px;font-size:12px;font-weight:750;color:#2e54b5}
+    .control{background:#091a31;border-radius:26px;padding:24px;color:#edf7ff;min-height:645px;box-shadow:0 25px 65px #142c4c2b}
+    .control-head{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid #254058;padding-bottom:20px}
+    .control-head h2{font-size:23px;margin:3px 0 0;letter-spacing:-.04em}.control-head small{color:#58d8e8;letter-spacing:.12em;font-weight:900}
+    .badge{border:1px solid #284961;color:#72e1cf;padding:8px 10px;border-radius:999px;font-size:10px;font-weight:850;text-align:center}
+    .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:20px 0}.kpi{background:#102c45;border:1px solid #1c3d58;border-radius:15px;padding:15px}.kpi strong{display:block;color:#63def0;font-size:22px}.kpi span{display:block;color:#91aec6;font-size:10px;margin-top:5px;line-height:1.35}
+    .grid{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}.panel{background:#10283f;border:1px solid #1e4059;border-radius:17px;padding:17px;margin-bottom:12px}
+    .panel h3{font-size:13px;margin:0 0 11px;color:#eaf6ff}.panel p{margin:0;color:#a8c0d3;font-size:11px;line-height:1.55}
+    .bars{display:flex;align-items:end;gap:7px;height:150px;border-bottom:1px solid #4b6781}.bar-wrap{flex:1;text-align:center;min-width:0}.bar{background:linear-gradient(#3bd6e5,#2670bd);min-height:4px;border-radius:5px 5px 0 0}.bar.hot{background:linear-gradient(#ffb273,#f66a69)}.bar.target{background:linear-gradient(#72ebc4,#22ae8d)}.bar-wrap span{display:block;color:#a7bdd1;font-size:10px;margin-top:5px}
+    .row{display:flex;justify-content:space-between;gap:10px;font-size:11px;padding:8px 0;border-bottom:1px solid #23415a;color:#a7bed1}.row strong{color:#f5fbff}
+    .controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}.control-label{display:flex;justify-content:space-between;font-size:11px;color:#a8c0d3;margin-bottom:6px}.control-label strong{color:#62dfe3}
+    input[type=range]{width:100%;accent-color:#38d4e7}.fine{font-size:10px!important;color:#819db4!important;margin-top:8px!important}
+    .footer{margin-top:25px;color:#7187a0;font-size:12px;line-height:1.6}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}.phone{max-width:430px;margin:auto;width:100%}.grid{grid-template-columns:1fr}.control{min-height:0}}
+    @media(max-width:590px){header,.intro{align-items:start;flex-direction:column}.kpis{grid-template-columns:repeat(2,1fr)}.control{padding:17px}.controls{grid-template-columns:1fr}.header-links{flex-wrap:wrap}}
+  </style>
+</head>
+<body>
+  <div class="notice"><b id="noticePrefix">SYNTHETIC DEMO</b> · <span id="noticeBody">All passenger, crowding, entrance, and energy values on this page are invented for a portfolio demonstration. No live subway feed, competition data, or 3D station asset is included.</span></div>
+  <main class="shell">
+    <header>
+      <div class="brand"><span>S</span> SUBWAY GAME</div>
+      <div class="header-links"><a href="https://github.com/doyunsin883-debug/subway-game-crowding-optimization/blob/main/README.md" id="readmeLink">Research README</a><a href="https://github.com/doyunsin883-debug/subway-game-crowding-optimization/blob/main/docs/METHODS.md" id="methodLink">Methods & math</a><a href="https://github.com/doyunsin883-debug/subway-game-crowding-optimization/blob/main/docs/EVIDENCE.md" id="evidenceLink">Evidence boundary</a></div>
+    </header>
+    <div class="intro">
+      <div><div class="eyebrow">OPERATIONS RESEARCH / INTERACTIVE PORTFOLIO</div><h1 id="title">One small move.<br>One measurable system.</h1><p id="subtitle">A citizen-facing mission and an operator-facing view of the same synthetic decision. Change assumptions to see what the model claims—and what it cannot.</p></div>
+      <select id="lang" class="language" aria-label="Language"><option value="ko">한국어</option><option value="en">English</option></select>
+    </div>
+    <div class="layout">
+      <section class="phone" aria-label="Citizen demonstration">
+        <div class="phone-top"><strong>SUBWAY GAME</strong><span class="status" id="phoneStatus">● 시뮬레이션</span></div>
+        <div class="phone-content">
+          <div class="hero"><span class="pill" id="heroTag">지금 할 수 있는 미션</span><h2 id="heroTitle">가까운 빈 칸으로<br>가볍게 이동해요</h2><p id="heroText">이동은 선택입니다. 안전하고 편한 경로만 제안해요.</p></div>
+          <div class="switches"><button id="peakBtn" class="active">혼잡 시간 · 객차</button><button id="offBtn">평상시 · 출입구</button></div>
+          <div class="mission"><span class="pill" id="missionTag">실시간 미션 · 합성 예시</span><h3 id="missionTitle">4칸 → 9칸</h3><p id="missionExplain">예상 혼잡 차이를 보고 이동을 제안해요.</p><div id="map"></div><button id="action" class="cta">미션 시작</button></div>
+          <div class="small-cards"><div class="small-card"><b id="twoWeek">14일 미션</b><span id="twoWeekSub">유연한 날짜만 참여</span></div><div class="small-card"><b id="quiz">안전 퀴즈</b><span id="quizSub">하루 10문항 운영 계획</span></div></div>
+          <div class="reward" id="reward">☕ 무료 커피까지 19개 남았어요 · 1 / 20</div>
+        </div>
+      </section>
+      <section class="control" aria-label="Operator demonstration">
+        <div class="control-head"><div><small id="opsKicker">OPERATIONS CONTROL / 합성 센서</small><h2 id="opsTitle">혼잡 분산 관제</h2></div><div class="badge" id="opsBadge">SIMULATION ONLY</div></div>
+        <div class="kpis"><div class="kpi"><strong>400</strong><span id="kpi1">가정 승객 / 열차</span></div><div class="kpi"><strong id="reachKpi">15%</strong><span id="kpi2">앱 도달률 가정</span></div><div class="kpi"><strong id="moveKpi">0</strong><span id="kpi3">예상 완료 이동</span></div><div class="kpi"><strong id="improveKpi">0%</strong><span id="kpi4">최대 가상 대기열 감소</span></div></div>
+        <div class="grid">
+          <div>
+            <div class="panel"><h3 id="chartTitle">10칸 가상 대기열 · 전체 승객</h3><div class="bars" id="bars"></div><p class="fine" id="chartNote">객차 안 혼잡률을 승강장 대기 인원의 대리변수로 정규화했습니다. 실제 센서가 아닙니다.</p></div>
+            <div class="panel"><h3 id="policyTitle">정책 가정</h3><div class="controls"><div><div class="control-label"><span id="reachLabel">앱 도달률</span><strong id="reachValue">15%</strong></div><input type="range" min="5" max="30" value="15" id="reach"></div><div><div class="control-label"><span id="acceptLabel">수락률</span><strong id="acceptValue">35%</strong></div><input type="range" min="10" max="70" value="35" id="accept"></div></div><p class="fine" id="policyNote">적합 60%, 완료 80%, 대기 400명은 가정. 슬라이더는 현장 정책 실행이 아닙니다.</p></div>
+          </div>
+          <div>
+            <div class="panel"><h3 id="decisionTitle">미션 의사결정</h3><div class="row"><span id="rule1">출발 후보</span><strong id="fromRule">상위 25% 혼잡</strong></div><div class="row"><span id="rule2">예측 격차</span><strong id="gapRule">≥10.72%p</strong></div><div class="row"><span id="rule3">시민 상태</span><strong id="citizenState">제안됨</strong></div><p class="fine" id="decisionNote">목적: 혼잡 집중 감소 + 짧은 이동. 접근성·승차 가능성은 현장 연동 전 필수 제약.</p></div>
+            <div class="panel"><h3 id="energyTitle">비첨두 에너지</h3><div class="row"><span id="energyLabel">잠재 절감</span><strong id="energyValue">계측 전</strong></div><p id="energyNote">출입구 임무는 대안 경로 제안일 뿐, 에스컬레이터 제어가 아닙니다.</p></div>
+            <div class="panel"><h3 id="evidenceTitle">증거 수준</h3><p id="evidenceText">합성 입력 → 시나리오 결과. 승강장 센서, 전력계, 현장 인과효과는 없습니다.</p></div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="footer" id="footerText">Portfolio-safe standalone demo. Competition-provided raw data and station 3D assets are excluded. Built to explain the system, not to claim measured operational improvement.</div>
+  </main>
+  <script>
+    const observed=[48,55,76,122,105,88,73,46,41,49];
+    const predicted=[50,57,74,115,102,82,69,44,39,48];
+    const S={mode:'peak',phase:0,reach:15,accept:35,lang:'ko'};
+    const $=id=>document.getElementById(id);
+    const T={
+      ko:{noticePrefix:'합성 데이터 시연',noticeBody:'이 페이지의 승객·혼잡·출입구·에너지 값은 취업 포트폴리오를 위해 만든 예시입니다. 실제 지하철 데이터, 공모전 원본, 3D 역사 파일이 없습니다.',title:'작은 이동 하나,<br>검증 가능한 운영 변화.',subtitle:'같은 합성 의사결정을 시민과 관리자가 어떻게 다르게 보는지 보여줍니다. 가정을 바꿔 모형이 말할 수 있는 범위를 확인해 보세요.',readme:'프로젝트 소개',method:'수학·알고리즘',evidence:'검증과 한계',phoneStatus:'● 시뮬레이션',heroTag:'지금 할 수 있는 미션',peakHero:'가까운 빈 칸으로<br>가볍게 이동해요',offHero:'오늘은 1번 출입구로<br>걸어볼까요?',peakHelp:'이동은 선택입니다. 안전하고 편한 경로만 제안해요.',offHelp:'안전하고 접근 가능한 길만 제안해야 합니다.',peakBtn:'혼잡 시간 · 객차',offBtn:'평상시 · 출입구',missionTag:'실시간 미션 · 합성 예시',peakExplain:'예상 혼잡 차이를 보고 가까운 칸으로 안내해요.',offExplain:'2번 대신 1번 출입구를 이용하는 예시예요.',start:'미션 시작',moving:'이동하는 중…',done:'도착했어요 · CLEAR!',clear:'미션 완료 ✓',twoWeek:'14일 미션',twoWeekSub:'유연한 날짜만 참여',quiz:'안전 퀴즈',quizSub:'하루 10문항 운영 계획',reward:'☕ 무료 커피까지 {n}개 남았어요 · {p} / 20',opsKicker:'OPERATIONS CONTROL / 합성 센서',opsTitle:'혼잡 분산 관제',kpi1:'가정 승객 / 열차',kpi2:'앱 도달률 가정',kpi3:'예상 완료 이동',kpi4:'최대 가상 대기열 감소',chartTitle:'10칸 가상 대기열 · 전체 승객',chartNote:'객차 안 혼잡률을 승강장 대기 인원의 대리변수로 정규화했습니다. 실제 센서가 아닙니다.',policyTitle:'정책 가정',reachLabel:'앱 도달률',acceptLabel:'수락률',policyNote:'적합 60%, 완료 80%, 대기 400명은 가정. 슬라이더는 현장 정책 실행이 아닙니다.',decisionTitle:'미션 의사결정',rule1:'출발 후보',rule2:'예측 격차',rule3:'시민 상태',fromRule:'상위 25% 혼잡',status:['제안됨','수락함','이동 중','완료'],decisionNote:'목적: 혼잡 집중 감소 + 짧은 이동. 접근성·승차 가능성은 현장 연동 전 필수 제약.',energyTitle:'비첨두 에너지',energyLabel:'잠재 절감',energyValue:'계측 전',energyNote:'출입구 임무는 대안 경로 제안일 뿐, 에스컬레이터 제어가 아닙니다.',evidenceTitle:'증거 수준',evidenceText:'합성 입력 → 시나리오 결과. 승강장 센서, 전력계, 현장 인과효과는 없습니다.',footer:'원본 데이터와 역사 3D 자산을 제외한 취업용 독립 시연입니다. 시스템을 설명하는 목적이며 현장 개선을 증명하지 않습니다.'},
+      en:{noticePrefix:'SYNTHETIC DEMO',noticeBody:'Passenger, crowding, entrance, and energy values here are invented for a portfolio demo. No live feed, competition raw data, or station 3D asset is included.',title:'One small move.<br>One measurable system.',subtitle:'See how citizen and operator views interpret the same synthetic decision. Change assumptions to inspect what the model can—and cannot—claim.',readme:'Research README',method:'Methods & math',evidence:'Evidence boundary',phoneStatus:'● Simulation',heroTag:'One mission for now',peakHero:'Move to a nearby<br>less crowded car',offHero:'Try entrance 1<br>today',peakHelp:'Moving is voluntary. A real system must keep routes safe and convenient.',offHelp:'A real system must verify accessibility and route safety.',peakBtn:'Peak · cars',offBtn:'Off-peak · entrances',missionTag:'Live-style mission · synthetic',peakExplain:'A nearby car is chosen from predicted crowding and walk time.',offExplain:'An illustrative switch from entrance 2 to entrance 1.',start:'Start mission',moving:'Moving…',done:'I arrived · CLEAR!',clear:'Mission complete ✓',twoWeek:'14-day mission',twoWeekSub:'Only flexible days',quiz:'Safety quiz',quizSub:'10 questions/day plan',reward:'☕ {n} missions to coffee · {p} / 20',opsKicker:'OPERATIONS CONTROL / SYNTHETIC SENSORS',opsTitle:'Crowding operations',kpi1:'Assumed riders / train',kpi2:'Assumed app reach',kpi3:'Expected completed moves',kpi4:'Modeled max-queue reduction',chartTitle:'Ten synthetic door-zone queues · all riders',chartNote:'On-board crowding is normalized as a platform-queue proxy. This is not a sensor.',policyTitle:'Policy assumptions',reachLabel:'App reach',acceptLabel:'Acceptance',policyNote:'Eligibility 60%, completion 80%, 400 waiting people: assumptions. Sliders control no real policy.',decisionTitle:'Mission decision',rule1:'Source condition',rule2:'Forecast spread',rule3:'Citizen state',fromRule:'Top quartile crowding',status:['Offered','Accepted','Moving','Completed'],decisionNote:'Goal: reduce concentration with short walks. Access and capacity need real integration.',energyTitle:'Off-peak energy',energyLabel:'Potential saving',energyValue:'Not metered',energyNote:'Entrance advice is not an escalator-control instruction.',evidenceTitle:'Evidence level',evidenceText:'Synthetic inputs → scenario outputs. No platform sensor, energy meter, or causal field effect.',footer:'Standalone portfolio-safe demo without original competition data or station 3D assets. It explains the system; it does not prove operational improvement.'}
+    };
+    function recommended(){
+      const source=3;
+      const order=[...observed].sort((a,b)=>a-b);
+      if(observed[source]<order[Math.floor(.75*(order.length-1))])return null;
+      const options=predicted.map((value,i)=>({value,i,walk:Math.ceil(Math.abs(i-source)*.35)})).filter(x=>x.i!==source&&x.walk<=5&&predicted[source]-x.value>=10.72).sort((a,b)=>a.value-b.value||Math.abs(a.i-source)-Math.abs(b.i-source));
+      return options[0]?{from:source+1,to:options[0].i+1,gap:+(predicted[source]-options[0].value).toFixed(1),walk:options[0].walk}:null;
+    }
+    function allocate(weights,total){let sum=weights.reduce((a,b)=>a+b,0),raw=weights.map(x=>x*total/sum),out=raw.map(Math.floor),r=total-out.reduce((a,b)=>a+b,0);raw.map((v,i)=>({i,frac:v-out[i]})).sort((a,b)=>b.frac-a.frac||a.i-b.i).slice(0,r).forEach(x=>out[x.i]++);return out}
+    function scenario(){
+      const before=allocate(observed,400),after=before.slice(),mission=recommended();
+      const eligible=Math.round(400*S.reach/100*.6*S.accept/100*.8);
+      const moves=Math.min(eligible,Math.max(0,Math.floor((after[mission.from-1]-after[mission.to-1])/2)));
+      after[mission.from-1]-=moves;after[mission.to-1]+=moves;
+      const delta=(Math.max(...before)-Math.max(...after))/Math.max(...before)*100;
+      return {before,after,moves,delta:Math.max(0,delta)};
+    }
+    function render(){
+      const t=T[S.lang],mission=recommended(),sc=scenario(),off=S.mode==='off';
+      document.documentElement.lang=S.lang;
+      [['noticePrefix',t.noticePrefix],['noticeBody',t.noticeBody],['subtitle',t.subtitle],['readmeLink',t.readme],['methodLink',t.method],['evidenceLink',t.evidence],['phoneStatus',t.phoneStatus],['heroTag',t.heroTag],['heroText',off?t.offHelp:t.peakHelp],['peakBtn',t.peakBtn],['offBtn',t.offBtn],['missionTag',t.missionTag],['missionExplain',off?t.offExplain:t.peakExplain],['twoWeek',t.twoWeek],['twoWeekSub',t.twoWeekSub],['quiz',t.quiz],['quizSub',t.quizSub],['opsKicker',t.opsKicker],['opsTitle',t.opsTitle],['kpi1',t.kpi1],['kpi2',t.kpi2],['kpi3',t.kpi3],['kpi4',t.kpi4],['chartTitle',t.chartTitle],['chartNote',t.chartNote],['policyTitle',t.policyTitle],['reachLabel',t.reachLabel],['acceptLabel',t.acceptLabel],['policyNote',t.policyNote],['decisionTitle',t.decisionTitle],['rule1',t.rule1],['rule2',t.rule2],['rule3',t.rule3],['fromRule',t.fromRule],['decisionNote',t.decisionNote],['energyTitle',t.energyTitle],['energyLabel',t.energyLabel],['energyValue',t.energyValue],['energyNote',t.energyNote],['evidenceTitle',t.evidenceTitle],['evidenceText',t.evidenceText],['footerText',t.footer]].forEach(([id,value])=>$(id).textContent=value);
+      $('title').innerHTML=t.title;$('heroTitle').innerHTML=off?t.offHero:t.peakHero;
+      $('peakBtn').classList.toggle('active',!off);$('offBtn').classList.toggle('active',off);
+      $('missionTitle').textContent=off?(S.lang==='ko'?'2번 → 1번 출입구':'Entrance 2 → 1'):(mission.from+' → '+mission.to+(S.lang==='ko'?'칸':' car'));
+      $('reachKpi').textContent=S.reach+'%';$('moveKpi').textContent=sc.moves;$('improveKpi').textContent=sc.delta.toFixed(1)+'%';
+      $('reachValue').textContent=S.reach+'%';$('acceptValue').textContent=S.accept+'%';$('citizenState').textContent=t.status[S.phase];
+      $('gapRule').textContent='≥10.72 pp';
+      $('reward').textContent=t.reward.replace('{n}',S.phase===3?18:19).replace('{p}',S.phase===3?2:1);
+      $('action').textContent=S.phase===0?t.start:S.phase===1?t.moving:S.phase===2?t.done:t.clear;
+      $('action').disabled=S.phase===3;$('action').classList.toggle('secondary',S.phase>=2);
+      if(off){$('map').innerHTML='<div class="entrances"><span class="entrance one target">1</span><span class="entrance two">2</span><span class="entrance three">3</span><span class="entrance four">4</span></div>'}
+      else{$('map').innerHTML='<div class="cars">'+observed.map((v,i)=>'<div class="car '+(i===3?'hot':i===mission.to-1?'target':'')+'">'+(i+1)+'</div>').join('')+'</div><div class="legend"><span>1</span><span>10</span></div>'}
+      $('bars').innerHTML=sc.after.map((v,i)=>'<div class="bar-wrap"><div class="bar '+(i===3?'hot':i===mission.to-1?'target':'')+'" style="height:'+Math.round(v/Math.max(...sc.before)*132)+'px"></div><span>'+(i+1)+'</span></div>').join('');
+    }
+    $('lang').addEventListener('change',e=>{S.lang=e.target.value;render()});
+    $('peakBtn').addEventListener('click',()=>{S.mode='peak';S.phase=0;render()});
+    $('offBtn').addEventListener('click',()=>{S.mode='off';S.phase=0;render()});
+    $('action').addEventListener('click',()=>{if(S.phase<3)S.phase++;render()});
+    $('reach').addEventListener('input',e=>{S.reach=+e.target.value;render()});
+    $('accept').addEventListener('input',e=>{S.accept=+e.target.value;render()});
+    render();
+  </script>
+</body>
+</html>

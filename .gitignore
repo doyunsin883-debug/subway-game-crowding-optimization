@@ -1,0 +1,22 @@
+# The public repository is an allowlisted publication package.
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.zip
+*.csv
+*.glb
+*.gltf
+*.shp
+*.dbf
+*.shx
+*.prj
+*replay*.json
+*visits*.json
+node_modules/
+.pnpm-store/
