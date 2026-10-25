@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="570" viewBox="0 0 1280 570" role="img" aria-labelledby="title desc">
+  <title id="title">Chronological forecast validation / 날짜 분리 예측 검증</title>
+  <desc id="desc">The next station model achieved MAE 2.40 percentage points versus persistence 2.72. The next ten minute model had MAE 9.96 versus persistence 9.66, so the baseline won. Training June 17 to 22, tuning June 23 to 24, holdout June 25 to 28.</desc>
+  <rect width="1280" height="570" rx="32" fill="#0b1d34"/>
+  <text x="48" y="64" font-family="Arial,sans-serif" font-size="31" font-weight="700" fill="#fff">Forecasting: where the model wins and where it does not</text>
+  <text x="48" y="98" font-family="Arial,sans-serif" font-size="19" fill="#a8c3d9">예측 정확도: 다음 역은 개선, 다음 10분은 단순 기준선 우세 · MAE 낮을수록 좋음</text>
+  <g font-family="Arial,sans-serif">
+    <text x="48" y="150" font-size="17" font-weight="700" fill="#fff">Next station / 다음 역</text><text x="485" y="150" font-size="15" fill="#a8c3d9">holdout N = 39,763</text>
+    <text x="48" y="186" font-size="15" fill="#b9cfe2">XGBoost</text><rect x="182" y="164" width="360" height="30" rx="8" fill="#36c6c8"/><text x="555" y="187" font-size="18" font-weight="700" fill="#fff">2.40 pp</text>
+    <text x="48" y="231" font-size="15" fill="#b9cfe2">Persistence</text><rect x="182" y="209" width="408" height="30" rx="8" fill="#52769a"/><text x="603" y="232" font-size="18" font-weight="700" fill="#fff">2.72 pp</text>
+    <rect x="725" y="152" width="505" height="100" rx="17" fill="#143750"/><text x="746" y="188" font-size="19" font-weight="700" fill="#70e2d5">Model improvement / 모델 개선</text><text x="746" y="220" font-size="16" fill="#c3d6e8">0.32 percentage points on this June holdout</text>
+    <line x1="48" y1="277" x2="1232" y2="277" stroke="#31506a"/>
+    <text x="48" y="322" font-size="17" font-weight="700" fill="#fff">Next 10 minutes / 다음 10분</text><text x="485" y="322" font-size="15" fill="#a8c3d9">holdout N = 21,020</text>
+    <text x="48" y="358" font-size="15" fill="#b9cfe2">XGBoost</text><rect x="182" y="336" width="398" height="30" rx="8" fill="#36c6c8"/><text x="593" y="359" font-size="18" font-weight="700" fill="#fff">9.96 pp</text>
+    <text x="48" y="403" font-size="15" fill="#b9cfe2">Persistence</text><rect x="182" y="381" width="386" height="30" rx="8" fill="#52769a"/><text x="581" y="404" font-size="18" font-weight="700" fill="#fff">9.66 pp</text>
+    <rect x="725" y="324" width="505" height="100" rx="17" fill="#143750"/><text x="746" y="360" font-size="19" font-weight="700" fill="#ffcb82">Baseline wins / 기준선 우세</text><text x="746" y="392" font-size="16" fill="#c3d6e8">Do not deploy the model on complexity alone</text>
+    <rect x="48" y="459" width="1184" height="66" rx="16" fill="#163e5a"/><text x="69" y="487" font-size="17" font-weight="700" fill="#fff">Chronological split / 날짜 분리</text><text x="69" y="511" font-size="15" fill="#c3d6e8">Train Jun 17–22  →  tune Jun 23–24  →  untouched holdout Jun 25–28, 2026. Previous completed-hour boarding only.</text>
+    <text x="48" y="552" font-size="13" fill="#83a3bf">MAE in crowding percentage points. Historical competition data are not distributed in this repository.</text>
+  </g>
+</svg>

@@ -6,6 +6,42 @@
 
 > A portfolio-safe research and demonstration repository for a submission to the **2026 Seoul Metro / KALDA “Subway Crowding and Safety Facility Data Utilization Service Discovery Competition.”** The interactive demo contains only synthetic values and original schematic graphics. Competition-provided raw data, station GLB/SHP assets, detailed replay files, credentials, and participant documents are intentionally absent.
 
+**한국어 요약:** 시민에게는 가까운 이동 미션을 간단히 제안하고, 관리자는 전체 승객의 대기열·미션 반응·정책 가정을 함께 살펴보는 도시철도 운영 시뮬레이션입니다. [한국어 전체 설명](README.ko.md) · [웹 시연 바로 열기](https://doyunsin883-debug.github.io/subway-game-crowding-optimization/)
+
+## See it first / 화면부터 보기
+
+![Observation, prediction, safe mission, citizen response, and operations evaluation / 관측부터 운영 평가까지](media/decision-flow.svg)
+
+| Peak mission / 혼잡 시간 객차 이동 | Off-peak mission / 평상시 출입구 선택 |
+|---|---|
+| ![Synthetic peak citizen and operator screenshot](media/demo-peak.jpg) | ![Synthetic off-peak citizen and operator screenshot](media/demo-offpeak.jpg) |
+
+These are screenshots of the **public synthetic demo**. The dark panel is the operator view; the phone frame is the citizen view. They do not contain the competition's station model or observed passenger logs. **[Try the interactive demo / 시연 직접 실행 →](https://doyunsin883-debug.github.io/subway-game-crowding-optimization/)**
+
+## How prediction was made / 예측 과정
+
+1. **Reconstruct and check / 방문 재구성·품질 검사:** parse 69 supplied CSVs, inspect missing/negative cells and duplicates, retain 9,909 complete ten-car train visits.
+2. **Use available information only / 미래 정보 차단:** current and adjacent car values, station/time, and boarding from the *previous completed hour* become features. Fare class is never treated as individual age or sex.
+3. **Split by date / 날짜 분리:** train June 17–22, tune June 23–24, evaluate once on June 25–28, 2026.
+4. **Compare a simple baseline / 단순 기준선 비교:** evaluate XGBoost against carrying the current car value forward. Keep the simpler method where it wins.
+5. **Gate recommendations / 미션 발행 조건:** require a valid source-target spread of at least `10.72 pp = 2 × 5.36 pp` (twice the next-station model's 90th-percentile absolute error), then apply walking and safety limits. This is an engineering threshold, not a guarantee.
+
+![Date-split MAE comparison / 날짜 분리 MAE 비교](media/forecast-validation.svg)
+
+### Core equations / 핵심 수식
+
+```text
+MAE = (1/n) Σ |ŷ_i − y_i|                          forecast error / 예측 오차
+gap(i,j) = ŷ_source(i) − ŷ_target(j) ≥ 10.72 pp   mission gate / 미션 발행 기준
+D_max = (max_j q_before,j − max_j q_after,j) / max_j q_before,j
+HHI(q) = Σ_j (q_j / N)^2                          concentration / 밀집도
+expected completions ≈ N × reach × eligible × accept × complete
+```
+
+The queue terms above use a **modeled** platform population. On-board car crowding is only a proxy for a boarding-door zone; actual platform queues were not measured. The proposed global OR objective and its constraints are in [Methods / 수학·알고리즘](docs/METHODS.md).
+
+![Monte Carlo scenario sensitivity / 몬테카를로 시나리오 민감도](media/scenario-results.svg)
+
 ## One-minute overview
 
 Crowding information alone does not redistribute passengers. SUBWAY GAME asks a narrower operations question: **which voluntary, feasible move should be suggested to which passenger, and how will operators know whether it helped?** The full prototype separates a simple citizen interface from an operations console. At peaks, it suggests a nearby less crowded boarding-door zone. Off peak, it can propose a safe alternative entrance. A longer 14-day mission tests flexible departure/entry choices. Quiz and reward loops support participation.

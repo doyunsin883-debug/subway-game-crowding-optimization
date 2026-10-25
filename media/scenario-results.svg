@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="500" viewBox="0 0 1280 500" role="img" aria-labelledby="title desc">
+  <title id="title">Monte Carlo policy scenario / 몬테카를로 정책 시나리오</title>
+  <desc id="desc">Modeled maximum queue reduction is 0.8 percent at 5 percent app reach, 2.3 percent at 15 percent reach, and 4.7 percent at 30 percent reach. These values are scenario outputs, not observed effects.</desc>
+  <rect width="1280" height="500" rx="32" fill="#eef5fa"/>
+  <text x="48" y="64" font-family="Arial,sans-serif" font-size="31" font-weight="700" fill="#10243d">Policy sensitivity: app reach matters</text>
+  <text x="48" y="98" font-family="Arial,sans-serif" font-size="19" fill="#4a6780">정책 민감도: 앱 도달률별 가상 최대 대기열 감소 · 실측 효과 아님</text>
+  <g font-family="Arial,sans-serif"><line x1="130" y1="360" x2="1150" y2="360" stroke="#91a9bb" stroke-width="2"/>
+    <rect x="205" y="314" width="205" height="46" rx="12" fill="#7098bc"/><text x="307" y="298" text-anchor="middle" font-size="32" font-weight="700" fill="#16354e">0.8%</text><text x="307" y="401" text-anchor="middle" font-size="19" fill="#36536d">5% reach / 도달</text>
+    <rect x="535" y="227" width="205" height="133" rx="12" fill="#2d81c4"/><text x="637" y="211" text-anchor="middle" font-size="32" font-weight="700" fill="#16354e">2.3%</text><text x="637" y="401" text-anchor="middle" font-size="19" fill="#36536d">15% reach / 도달</text>
+    <rect x="865" y="89" width="205" height="271" rx="12" fill="#27b9b8"/><text x="967" y="76" text-anchor="middle" font-size="32" font-weight="700" fill="#16354e">4.7%</text><text x="967" y="401" text-anchor="middle" font-size="19" fill="#36536d">30% reach / 도달</text>
+    <rect x="48" y="435" width="1184" height="42" rx="12" fill="#d7e7f4"/><text x="66" y="461" font-size="15" fill="#2c4b65">Assumed 400 waiting people · 60% eligible · 35% accept · 80% complete · 3,000 draws per reach level · no causal claim</text>
+  </g>
+</svg>
